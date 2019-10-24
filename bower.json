@@ -12,6 +12,8 @@
   ],
   "homepage": "https://github.com/mrb34/nodejsChat",
   "dependencies": {
-    "angular": "^1.7.8"
+    "angular": "^1.7.8",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1"
   }
 }
