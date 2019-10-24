@@ -1,0 +1,17 @@
+{
+  "name": "nodechatprojects",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Yusuf ŞENEL <ysf.senel@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "nodejs",
+    "chat"
+  ],
+  "homepage": "https://github.com/mrb34/nodejsChat",
+  "dependencies": {
+    "angular": "^1.7.8"
+  }
+}
