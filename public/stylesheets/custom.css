@@ -1,0 +1,30 @@
+
+
+
+:root {
+  --custom-ph-color: #858796;
+}
+.form-control::-webkit-input-placeholder {
+	color: var(--custom-ph-color);;
+	opacity: 1
+}
+
+.form-control::-moz-placeholder {
+	color: var(--custom-ph-color);;
+	opacity: 1
+}
+
+.form-control:-ms-input-placeholder {
+	color: var(--custom-ph-color);;
+	opacity: 1
+}
+
+.form-control::-ms-input-placeholder {
+	color: var(--custom-ph-color);;
+	opacity: 1
+}
+
+.form-control::placeholder {
+	color: var(--custom-ph-color);;
+	opacity: 1
+}

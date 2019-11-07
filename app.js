@@ -6,6 +6,10 @@ const bodyParser = require("body-parser");
 const dotenv = require('dotenv');
 dotenv.config();
 const logger = require('morgan');
+// const expressValidator = require('express-validator');
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -25,10 +29,35 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
+
+
+//Express Session Middleware
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: true,
+  saveUninitialized: true
+
+}));
+
+//Express Messages Middleware
+
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Passport config
+require('./config/passport')(passport);
+
+//Passport Middleware
 
 
 app.use('/', indexRouter);

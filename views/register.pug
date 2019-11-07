@@ -11,29 +11,74 @@ block content
                 .text-center
                   h1.h4.text-gray-900.mb-4 Create an Account!
                 form.user(method='POST',action='/users/register')
-                  .form-group.row
-                    .col-sm-6.mb-3.mb-sm-0
-                      input#firstname.form-control.form-control-user(name='firstname',type='text', placeholder='First Name')
-                    .col-sm-6
-                      input#lastname.form-control.form-control-user(name='lastname',type='text', placeholder='Last Name')
-                  .form-group
-                    input#email.form-control.form-control-user(name='email',type='text', placeholder='Email Address')
-                  .form-group
-                    input#username.form-control.form-control-user(name='username',type='text', placeholder='Username')
-                  .form-group.row
-                    .col-sm-6.mb-3.mb-sm-0
-                      input#password.form-control.form-control-user(name='password',type='text', placeholder='Password')
-                    .col-sm-6
-                      input#password2.form-control.form-control-user(name='password2',type='text', placeholder='Repeat Password')
                   
-                  input.btn.btn-primary.btn-user.btn-block(type='submit',value='Register Account')
-                  //- a.btn.btn-primary.btn-user.btn-block(href='/users/register')
-                  //-   | Register Account              
-                             
-                  
+                    if errors
+                      .form-group.row
+                        .col-sm-6.mb-3.mb-sm-0                          
+                          if errors.firstname
+                            input#firstname.form-control.form-control-user(name='firstname',type='text', placeholder=errors.firstname)
+                          else
+                            input#firstname.form-control.form-control-user(name='firstname',type='text', placeholder='Firstname',value=firstname)                                
+                        .col-sm-6
+                          if errors.lastname
+                            input#lastname.form-control.form-control-user(name='lastname',type='text', placeholder=errors.lastname)
+                          else
+                            input#lastname.form-control.form-control-user(name='lastname',type='text', placeholder='Lastname',value=lastname)                          
+                      .form-group
+                        if errors.email
+                          input#email.form-control.form-control-user(name='email',type='text', placeholder=errors.email)
+                        else
+                          input#email.form-control.form-control-user(name='email',type='text', placeholder='Email',value=email)                         
+                      .form-group   
+                        if errors.username
+                          input#username.form-control.form-control-user(name='username',type='text', placeholder=errors.username)
+                        else
+                          input#username.form-control.form-control-user(name='username',type='text', placeholder='Username',value=username)                        
+                      .form-group.row
+                        .col-sm-6.mb-3.mb-sm-0                         
+                          if errors.password
+                              input#password.form-control.form-control-user(name='password',type='password', placeholder= errors.password)
+                          else
+                              input#password.form-control.form-control-user(name='password',type='password', placeholder='password',value=password)
+                                                                   
+                        .col-sm-6
+                          if errors.password2
+                              input#password2.form-control.form-control-user(name='password2',type='repassword', placeholder= errors.password2)
+                          else
+                              input#password2.form-control.form-control-user(name='password2',type='password', placeholder='repassword',value=password2)                         
+                          
+                      
+                      input.btn.btn-primary.btn-user.btn-block(type='submit',value='Register Account')
+                    else
+                      .form-group.row
+                        .col-sm-6.mb-3.mb-sm-0
+                          input#firstname.form-control.form-control-user(name='firstname',type='text', placeholder='First Name')
+                        .col-sm-6
+                          input#lastname.form-control.form-control-user(name='lastname',type='text', placeholder='Last Name')
+                      .form-group
+                        input#email.form-control.form-control-user(name='email',type='text', placeholder='Email Address')
+                      .form-group                    
+                        input#username.form-control.form-control-user(name='username',type='text', placeholder='Username')
+                        p#test
+                      .form-group.row
+                        .col-sm-6.mb-3.mb-sm-0    
+                          input#password.form-control.form-control-user(name='password',type='password', placeholder='password')
+                                                                   
+                        .col-sm-6
+                          input#password2.form-control.form-control-user(name='password2',type='password', placeholder='Repeat Password')
+                      
+                      input.btn.btn-primary.btn-user.btn-block(type='submit',value='Register Account')
+              
                   
                 hr
                 .text-center
                   a.small(href='forgot-password.html') Forgot Password?
+                
                 .text-center
                   a.small(href='/login') Already have an account? Login!
+  if errors    
+    script.
+      document.documentElement.style.setProperty('--custom-ph-color', 'red');
+  else
+    script.      
+      document.documentElement.style.setProperty('--custom-ph-color', 858796); 
