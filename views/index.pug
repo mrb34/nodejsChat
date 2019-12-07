@@ -1,8 +1,14 @@
 extends layout
-
 block content
+  div(ng-controller='indexController')
   h1= title
   if user
-    a.btn.btn-primary(href='users/logout') Logout  
-  p Welcome to #{title}
+    a.btn.btn-primary(href='users/logout') Logout 
+  br
+  div
+    a.btn.btn-primary(href='/chat') chat page
+  p Welcome to #{title}  
+append javascripts
+  //script(src="/javascripts/services/userFactory.js")
+  script(src="/javascripts/controller/indexController.js")
   

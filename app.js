@@ -11,13 +11,15 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 
+const redisStore=require('./helpers/redisStore')
+
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
+const chatRouter = require('./routes/chat');
+const messages = require('./routes/messages');
 const app = express();
-//console.log(process.env.NAME);
 
-//
 
 const db=require('./helpers/db')();
 
@@ -38,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 
 //Express Session Middleware
 app.use(session({
+  store:redisStore,
   secret: process.env.SECRET_KEY,
   resave: true,
   saveUninitialized: true
@@ -62,6 +65,9 @@ require('./config/passport')(passport);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/chat', chatRouter);
+app.use('/messages', messages);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next)=> {

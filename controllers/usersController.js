@@ -110,6 +110,6 @@ exports.checkAuthentication=(req,res,next)=>{
     return next();
   }else {
     req.flash('danger','Please Login');
-    res.redirect('users/login');
+    res.redirect('../users/login');
   }
 }
