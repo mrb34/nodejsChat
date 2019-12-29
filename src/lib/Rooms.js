@@ -1,4 +1,4 @@
-const Rooms = require('../../modeldeneme/Room.js');
+const Rooms = require('../../models/Room.js');
 
 exports.upsert=(name)=>{
 

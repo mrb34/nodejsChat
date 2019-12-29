@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Messages = require('../../modeldeneme/Message.js');
+const Messages = require('../../models/Message.js');
 
 exports.upsert=({roomId,message,userId,username,surname})=>{
 

@@ -3,7 +3,7 @@
 let validator = require('validator');
 //Models
 
-const User = require('../modeldeneme/User');
+const User = require('../models/User');
 
 //
 const validateCreateUserFields=(errors,req)=>{

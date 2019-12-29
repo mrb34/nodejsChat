@@ -1,6 +1,6 @@
 
-const OnlineUsers = require('../../modeldeneme/Online.js');
-const User = require('../../modeldeneme/User.js');
+const OnlineUsers = require('../../models/Online.js');
+const User = require('../../models/User.js');
 
 exports.upsert=(connectionId,meta)=>{
 

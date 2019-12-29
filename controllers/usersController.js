@@ -1,7 +1,7 @@
 
 //Models
 
-const User = require('../modeldeneme/User');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const {isEmpty} = require('lodash');
