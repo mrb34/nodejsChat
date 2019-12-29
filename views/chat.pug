@@ -2,6 +2,7 @@ extends layoutChat
 
 append stylesheets
   link(rel='stylesheet', href='/stylesheets/chat.css')
+  
 
 block content
   div(ng-controller="chatController")  
@@ -22,14 +23,14 @@ block content
                   ng-repeat="room in roomList",
                   ng-click="switchRoom(room)"
                 )
-                  span.name {{ room.name }}
+                  span.name {{ room.name }}                
 
             .tab-right(ng-show="activeTab === 2")
               ul.people
                 li.person(ng-repeat="user in onlineList")
                   img(ng-src="{{ user.meta.profilePhotoUrl }}")
                   span.name {{ user.meta.firstname }} {{ user.meta.lastname }}
-                  span.preview &nbsp;
+                  span.preview &nbsp;              
           .bottom
             button(ng-click="newRoom()") New Room
         .right(ng-show="chatClicked")

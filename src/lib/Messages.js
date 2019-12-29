@@ -1,45 +1,53 @@
-const shortid = require('shortid');
 const _ = require('lodash');
-const redisClient = require('../redisClient');
+const Messages = require('../../modeldeneme/Message.js');
 
-function Messages() {
-  this.client=redisClient.getClient()
-}
-module.exports=new Messages();
+exports.upsert=({roomId,message,userId,username,surname})=>{
 
-Messages.prototype.upsert=function({roomId,message,userId,username,surname}){
+    const data={
+                  userId : userId,
+                  username : username,
+                  surname : surname,
+                  message : message
+                }
 
-  this.client.hset(
-    'messages:'+roomId,
-    shortid.generate(),
-    JSON.stringify({
-      userId,
-      username,
-      surname,
-      message,
-      when:Date.now()
-    }),
-    err=>{
-      if (err) {
-        console.error(err);
-      }
-    }
-  )
+  Messages.findOneAndUpdate({
+                  roomId:roomId,
+              },
+              {
+                  roomId:roomId,
+                  "$push": { "data": data }
+
+              },
+              {
+                  upsert: true
+              },
+              (err) => {
+                console.log(err);
+                return;
+              });
+
+
 };
 
+exports.list=(roomId,callback)=>{
 
-
-Messages.prototype.list=function(roomId,callback){
-  let messageList=[];
-  this.client.hgetall('messages:'+roomId,function(err,messages){
+  Messages.find({roomId:roomId},(err,messages)=>{
     if (err) {
-        console.error(err);
-        return callback([])
-    }
-    for (let message in messages) {
-      messageList.push(JSON.parse(messages[message]));
+      console.log(err);
+      return callback([]);
+    }else {
+    //
+  let messageList=[]
+
+    if (typeof messages !== 'undefined' && messages.length > 0) {
+
+        if (messages[0].data !=null) {
+            messageList=messages[0].data;
+          }
+        }
+        return callback(_.orderBy(messageList,'when','asc'));
     }
 
-    return callback(_.orderBy(messageList,'when','asc'));
-  })
+  });
+
 };

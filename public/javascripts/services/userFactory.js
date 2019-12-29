@@ -1,8 +1,9 @@
+
 app.factory('userFactory',['$http','env',($http,env)=>{
     const getUser=()=>{
+
         return $http({
-            //url:env.SERVİCES_URL+'/getUser',
-            url: 'http://localhost:3000/getUser',
+            url : env.SERVICES_URL+'/users/getUser',            
             method:'GET'
 
         }).then(response=>{

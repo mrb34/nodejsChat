@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
 let users=require('../controllers/usersController')
 
 router.get('/register',users.get_register);
@@ -15,4 +12,5 @@ router.post('/login', users.post_login);
 
 router.get('/logout', users.get_logout);
 
+router.get('/getUser',users.checkAuthentication, users.get_user);
 module.exports = router;

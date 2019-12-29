@@ -2,7 +2,9 @@
 
 let validator = require('validator');
 //Models
-const User = require('../models/User');
+
+const User = require('../modeldeneme/User');
+
 //
 const validateCreateUserFields=(errors,req)=>{
   //firstname validation  error message
@@ -47,12 +49,11 @@ const validateCreateUserFields=(errors,req)=>{
 exports.validateRegister=(errors,req)=>{
       return new Promise((resolve,reject)=>{
                 validateCreateUserFields(errors,req);
-                //console.log(errors,'err2');
+
                 return User.findOne({email:req.body.email}).then(u=> {
                             if (u!==null) {
 
                               errors['email']='Email is already in use. Please login or resset your password';
-                              //console.log(errors,'err3');
                               }
                               resolve(errors);
                             });

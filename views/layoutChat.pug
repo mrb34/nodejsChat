@@ -3,13 +3,43 @@ html
   head
     title= title
     block stylesheets
+     link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
      link(rel='stylesheet', href='/stylesheets/style.css')
      link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   body
+    nav.navbar.navbar-expand-lg.navbar-light(style='background-color: #e3f2fd;').fixed-top
+      a.navbar-brand(href='#') NodeChat
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href='#') 
+              | Home 
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link(href='#') Link
+          li.nav-item.dropdown
+            a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              | Dropdown
+            .dropdown-menu(aria-labelledby='navbarDropdown')
+              a.dropdown-item(href='#') Action
+              a.dropdown-item(href='#') Another action
+              .dropdown-divider
+              a.dropdown-item(href='#') Something else here
+          li.nav-item
+            a.nav-link.disabled(href='#', tabindex='-1', aria-disabled='true') Disabled
+        ul.navbar-nav.navbar-right        
+          a.btn.btn-outline-success(href='users/logout') logout         
+          
+    != messages('message',locals)
     div(ng-app="nodechatProject",ng-cloak)
      block content
 
 
   block javascripts
+    script(src="./javascripts/messageCleaner.js")
+    script(src="./jquery/dist/jquery.min.js")
+    script(src="./bootstrap/dist/js/bootstrap.min.js")
     script(src="./angular/angular.min.js")
     script(src="./javascripts/main.js")

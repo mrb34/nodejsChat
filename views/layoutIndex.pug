@@ -19,8 +19,11 @@ html
     .container
       != messages('message',locals)
       block content    
+        
     // Bootstrap core JavaScript
     script(src="/jquery/dist/jquery.min.js")
+    //messageCleaner
+    script(src="../javascripts/messageCleaner.js")
       
     script(src="/bootstrap/dist/js/bootstrap.bundle.js")
     // Core plugin JavaScript

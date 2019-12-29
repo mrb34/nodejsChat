@@ -1,39 +1,58 @@
-const shortid = require('shortid');
-const redisClient = require('../redisClient');
-function Rooms() {
-  this.client=redisClient.getClient()
-}
-module.exports=new Rooms();
+const Rooms = require('../../modeldeneme/Room.js');
 
-Rooms.prototype.upsert=function(name){
-  const newId=shortid.generate();
-  this.client.hset(
-    'rooms',
-    '@Room:'+newId,
-    JSON.stringify({
-      id:'@Room:'+newId,
-      name,
-      when:Date.now()
-    }),
-    err=>{
-      if (err) {
-        console.error(err);
-      }
-    }
-  )
+exports.upsert=(name)=>{
+
+  Rooms.findOneAndUpdate({
+                  name:name,
+              },
+              {
+                  name:name
+              },
+              {
+                  upsert: true
+              },
+              (err) => {
+                console.log(err);
+                return;
+              });
+
+
 };
 
-Rooms.prototype.list=function(callback){
-  let roomList=[];
-  this.client.hgetall('rooms',function(err,rooms){
+
+
+
+exports.list=(callback)=>{
+
+  Rooms.find({},(err,rooms)=>{
     if (err) {
-        console.error(err);
-        return callback([])
-    }
-    for (let room in rooms) {
-      roomList.push(JSON.parse(rooms[room]));
+      console.log(err);
+      return callback([]);
+    }else {
+
+          let roomList=[];
+          roomList=JSON.stringify(rooms)
+
+      return callback(JSON.parse(roomList));
     }
 
-    return callback(roomList);
-  })
+  });
+
 };
+
+
+/***********************/
+exports.upsertAndList = async function(name) {
+
+  await   module.exports.upsert(name)
+
+  return new Promise(function(resolve, reject) {
+    const rooms = Rooms.find().select("-__v");
+    if (rooms) {
+      resolve(rooms);
+    } else {
+      reject(Error("rooms not found"));
+    }
+  });
+}
+/*********************************/

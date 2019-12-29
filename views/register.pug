@@ -1,4 +1,4 @@
-extends layoutCustomised
+extends layoutIndex
 
 block content  
   .card.o-hidden.border-0.shadow-lg.my-5
@@ -75,7 +75,7 @@ block content
                   a.small(href='forgot-password.html') Forgot Password?
                 
                 .text-center
-                  a.small(href='/login') Already have an account? Login!
+                  a.small(href='./login') Already have an account? Login!
   if errors    
     script.
       document.documentElement.style.setProperty('--custom-ph-color', 'red');

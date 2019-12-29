@@ -1,6 +1,7 @@
 
 //Models
-const User = require('../models/User');
+
+const User = require('../modeldeneme/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const {isEmpty} = require('lodash');
@@ -24,11 +25,11 @@ exports.post_register= (req,res,next)=>{
   const password2=req.body.password2;
 
 
-            let  errors={};
-            return validateRegister(errors,req).then(errors=>{
-              if (!isEmpty(errors)) {
-                console.log(errors);
-                res.render('register',{
+  let  errors={};
+  return validateRegister(errors,req).then(errors=>{
+        if (!isEmpty(errors)) {
+            console.log(errors);
+            res.render('register',{
                   title:'Register',
                   errors:errors,
                   firstname:firstname,
@@ -37,11 +38,9 @@ exports.post_register= (req,res,next)=>{
                   username:username,
                   password:password,
                   password2:password2
-
                 });
 
               }else {
-
                       let newUser=new User({
                         firstname:firstname,
                         lastname:lastname,
@@ -50,36 +49,28 @@ exports.post_register= (req,res,next)=>{
                         password:password
 
                       });
-
-                      bcrypt.genSalt(10,(err,salt)=>{
+                bcrypt.genSalt(10,(err,salt)=>{
 
                           bcrypt.hash(newUser.password,salt,(err,hash)=>{
 
                             if (err) {
                               console.log(err);
                             }
+
                             newUser.password=hash;
 
                             newUser.save((err)=>{
                               if (err) {
-                                  console.log(err);
-                                  return;
+                                console.log(err);
+                                return;
 
-                                }else {
-
-
-                                  req.flash('success','user Added');
-                                  res.redirect('/users/login');
-
-                                }
-
+                              }else {
+                                req.flash('success','user Added');
+                                res.redirect('/users/login');
+                              }
                             });
-
                           });
-
                       });
-
-
               }
             })
 }
@@ -90,10 +81,10 @@ exports.get_login=(req, res, next)=>{
 };
 
 exports.post_login=(req, res, next)=>{
-    passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/users/login',
-                                   successFlash:'Welcome',
-                                   failureFlash: true })(req,res,next);
+    passport.authenticate('local', { successRedirect: '/chat',
+                                    failureRedirect: '/users/login',
+                                    successFlash:'Welcome',
+                                    failureFlash: true })(req,res,next);
 
 
 };
@@ -104,6 +95,11 @@ exports.get_logout=(req,res,next)=>{
   res.redirect('/users/login');
 
 };
+
+exports.get_user=(req, res, next) =>{
+  res.json(req.user)
+};
+
 exports.checkAuthentication=(req,res,next)=>{
 
   if (req.isAuthenticated()) {

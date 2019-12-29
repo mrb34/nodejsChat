@@ -1,48 +1,76 @@
-const redisClient = require('../redisClient');
-function Users() {
-  this.client=redisClient.getClient()
-}
-module.exports=new Users();
 
-Users.prototype.upsert=function(connectionId,meta){
-  this.client.hset(
-    'online',
-    meta._id,
-    JSON.stringify({
-      connectionId,
-      meta,
-      when:Date.now()
-    }),
-    err=>{
+const OnlineUsers = require('../../modeldeneme/Online.js');
+const User = require('../../modeldeneme/User.js');
+
+exports.upsert=(connectionId,meta)=>{
+
+
+  OnlineUsers.findOneAndUpdate({
+                  metaId:meta._id,
+              },
+              {
+                metaId:meta._id,
+                connectionId:connectionId,
+                meta:meta._id
+              },
+              {
+
+                  upsert: true
+              },
+              (err) => {
+                console.log(err);
+                return;
+              });
+
+
+};
+exports.remove = (_id)=> {
+  OnlineUsers.remove({ metaId:_id.toString() }, function(err) {
       if (err) {
-        console.error(err);
+          console.log(err);
       }
-    }
-  )
+
+  });
 };
 
-Users.prototype.remove=function(_id){
-  this.client.hdel(
-    'online',
-    _id,
-    err=>{
-      if (err) {
-        console.error(err);
-      }
-    }
-  )
-}
-Users.prototype.list=function(callback){
-  let active=[];
-  this.client.hgetall('online',function(err,users){
-    if (err) {
-        console.error(err);
-        return callback([])
-    }
-    for (let user in users) {
-      active.push(JSON.parse(users[user]));
-    }
+exports.list= async (callback)=>{
 
-    return callback(active);
-  })
-};
+      const users = await OnlineUsers.find().populate("meta", "-__v").select("-__v");
+     return callback(users);
+
+
+}
+
+/*******************************************************/
+
+
+exports.removeAndList = async function(_id) {
+
+  await   module.exports.remove(_id)
+
+  return new Promise(function(resolve, reject) {
+    const users = OnlineUsers.find().populate("meta", "-_id -__v").select("-__v");
+    if (users) {
+      resolve(users);
+    } else {
+      reject(Error("user not found"));
+    }
+  });
+}
+
+
+
+exports.upsertAndList = async function(connectionId,meta) {
+
+  await   module.exports.upsert(connectionId,meta)
+
+  return new Promise(function(resolve, reject) {
+    const users = OnlineUsers.find().populate("meta", "-_id -__v").select("-__v");
+    if (users) {
+      resolve(users);
+    } else {
+      reject(Error("user not found"));
+    }
+  });
+}
+/************************************************************/
