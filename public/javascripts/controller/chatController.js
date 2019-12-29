@@ -30,7 +30,12 @@ function init() {
 *Socket.io event handling
 */
 
-  const socket=io.connect("http://localhost:3000")
+const socket=io.connect("https://nodechatangular.herokuapp.com")
+
+///**************************************
+//const socket=io.connect("http://localhost:3000")
+  ////********************************************
+
   socket.on('onlineList',users=>{
 
     $scope.onlineList = users;
